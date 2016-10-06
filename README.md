@@ -2,6 +2,8 @@
 
 A simplistic terminal emulator HTML component
 
+[![Clojars Project](https://img.shields.io/clojars/v/bterm.svg)](https://clojars.org/bterm)
+
 ## Overview
 
 This component was designed to accompany the book _Learn ClojureScript_ as a
