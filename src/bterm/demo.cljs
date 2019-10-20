@@ -10,7 +10,7 @@
   (let [term (bterm/attach (.getElementById js/document "terminal")
                            {:font-size 14
                             :prompt "js=> "})]
-    
+
     (letfn [(guessing-game [num]
               (io/println term "Please enter a number")
               (io/read term (fn [guess]
@@ -23,7 +23,9 @@
                                                     (guessing-game num))
                                   :else (do (io/println term "Too low. Try again")
                                             (guessing-game num)))))))]
-      (guessing-game nil)
+      (guessing-game (-> (js/Math.random)
+                         (* 10)
+                         (js/Math.ceil)))
       (reset! initialized true))))
 
 

@@ -63,6 +63,16 @@
     (render-lines terminal lines)
     (render-prompt terminal)))
 
+(defn insert-stylesheet
+  "Takes a sequence of rules and inserts them as a new stylesheet"
+  [rules]
+  (let [style (js/document.createElement "style")]
+    (.setAttribute style "type" "text/css")
+    (.appendChild (.-head js/document) style)
+    (doseq [rule rules]
+      (.insertRule (.-sheet style) rule))))
+
+
 ;; TODO: Simplify and refactor
 (defn init-dom [terminal output prompt input]
   (let [{:keys [node display dims]} terminal
@@ -70,22 +80,23 @@
         {:keys [cols char-width]} dims
         input-width (* char-width (- cols (count (:prompt display))))
         [node-id output-id prompt-id input-id] (repeatedly 4 get-id)]
+    (insert-stylesheet
+      [(str "#" node-id "{background:" (:background colors) ";}")
+       (str "#" output-id "{color:" (:output colors) ";}")
+       (str "#" prompt-id "{color:" (:prompt colors) ";}")
+       (str "#" input-id "{"
+            "color:" (:input colors) ";"
+            "background:" (:background colors) ";"
+            "border:none;"
+            "font-family:" font ";"
+            "font-size:" font-size "px;"
+            "width:" input-width "px;"
+            "}")
+       (str "#" input-id ":focus{outline:none;}")])
     (aset node "id" node-id)
     (aset output "id" output-id)
     (aset prompt "id" prompt-id)
     (aset input "id" input-id)
-    (aset node "style" "background" (:background colors))
-    (aset output "style" "color" (:output colors))
-    (aset prompt "style" "color" (:prompt colors))
-    (aset input "style" "color" (:input colors))
-    (aset input "style" "background" (:background colors))
-    (aset input "style" "border" "none")
-    (aset input "style" "font-family" font)
-    (aset input "style" "font-size" (str font-size "px"))
-    (aset input "style" "width" (str input-width "px"))
-    (.addRule (aget js/document "styleSheets" 0)
-              (str "#" input-id ":focus")
-              "outline: none;")
     (.appendChild node output)
     (.appendChild node prompt)
     (.appendChild node input)
