@@ -1,4 +1,4 @@
-(defproject bterm "0.1.0-SNAPSHOT"
+(defproject bterm "0.1.0"
   :description "A simple terminal emulator widget"
   :url "https://github.com/kendru/bterm"
   :license {:name "Eclipse Public License"
@@ -42,8 +42,8 @@
                                   [com.cemerick/piggieback "0.2.1"]]
                    :plugins [[lein-figwheel "0.5.8"]
                              [lein-cljsbuild "1.1.4" :exclusions [[org.clojure/clojure]]]]
- 
+
                    :source-paths ["src" "dev"]
                     :repl-options {; for nREPL dev you really need to limit output
-                                  :init (set! *print-length* 50)
-                                  :nrepl-middleware [cemerick.piggieback/wrap-cljs-repl]}}})
+                                   :init (set! *print-length* 50)
+                                   :nrepl-middleware [cemerick.piggieback/wrap-cljs-repl]}}})
